@@ -5,3 +5,4 @@ numpy==1.23.5
 python-docx==0.8.11
 docx2pdf==0.1.8
 requests==2.31.0
+urllib3==1.25.11
