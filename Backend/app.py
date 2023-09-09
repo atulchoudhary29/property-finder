@@ -21,6 +21,7 @@ def process_data():
 
         # Call the main function
         zipcode, table_data = real_estate.main(num_homes, user_input, region_id)
+        print(table_data)
 
         # Generate file names
         doc_name = 'Undervalued_Properties' if type(zipcode) is str else 'ALL_The_Undervalued_Properties'
