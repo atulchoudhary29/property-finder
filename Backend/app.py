@@ -1,7 +1,6 @@
 from flask import Flask, request, jsonify, send_from_directory, url_for
 from flask_cors import CORS
 import os
-import tempfile  # <-- Import the tempfile module
 
 app = Flask(__name__)
 CORS(app)  # Enable CORS for the Flask app
@@ -9,6 +8,7 @@ CORS(app)  # Enable CORS for the Flask app
 # Importing the provided code
 # Assuming the code is saved in a file named `real_estate.py`
 import real_estate
+SAVE_DIRECTORY = "/tmp"
 
 # Create a temporary directory for saving files
 temp_dir = tempfile.mkdtemp()
@@ -28,8 +28,8 @@ def process_data():
 
         # Generate file names
         doc_name = 'Undervalued_Properties' if type(zipcode) is str else 'ALL_The_Undervalued_Properties'
-        doc_path = os.path.join(temp_dir, f"{doc_name}.docx")  # <-- Save to the temp directory
-        pdf_path = os.path.join(temp_dir, f"{doc_name}.pdf")   # <-- Save to the temp directory
+        doc_path = os.path.join(SAVE_DIRECTORY, f"{doc_name}.docx")
+        pdf_path = os.path.join(SAVE_DIRECTORY, f"{doc_name}.pdf")
         
         return jsonify({
             'status': 'success',
@@ -47,7 +47,7 @@ def process_data():
 @app.route('/download/<path:filename>', methods=['GET'])
 def download(filename):
     """Serve files for download."""
-    return send_from_directory(directory=temp_dir, path=filename, as_attachment=True)  # <-- Serve from the temp directory
+    return send_from_directory(directory=SAVE_DIRECTORY, path=filename, as_attachment=True)
 
 if __name__ == '__main__':
     app.run(debug=True, port=5000)  # Keep debug as True for development purposes only
