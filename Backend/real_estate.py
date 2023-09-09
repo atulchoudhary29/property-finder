@@ -6,9 +6,6 @@ import datetime
 import docx
 import requests
 import json
-from docx2pdf import convert
-# import pythoncom
-import json
 import os
 
 # User Inputs
@@ -229,18 +226,6 @@ def generate_document(data, zipcode, total_listings, total_homes, max_ppsf, min_
     
     return doc
 
-def convert_to_pdf(input_path, output_path):
-    """
-    Convert a Word (.docx) file to PDF using the docx2pdf library.
-    """
-    try:
-        # pythoncom.CoInitialize()
-        convert(input_path, output_path)
-        # pythoncom.CoUninitialize()
-    except Exception as e:
-        print(f"Error during conversion: {e}")
-
-
 # Main function to be called
 def main(num_homes, uipt, region_id):
     # response = requests.get(f'https://www.redfin.com/stingray/api/gis?al=1&has_deal=false&has_dishwasher=false&has_laundry_facility=false&has_laundry_hookups=false&has_parking=false&has_pool=false&has_short_term_lease=false&include_pending_homes=false&isRentals=false&is_furnished=false&is_income_restricted=false&is_senior_living=false&market={market}&num_homes={num_homes}&ord=redfin-recommended-asc&page_number=1&region_id={region_id}&region_type=2&sf=1,3,7&status=9&travel_with_traffic=false&travel_within_region=false&uipt={uipt}&utilities_included=false&v=8')
@@ -275,7 +260,6 @@ def main(num_homes, uipt, region_id):
     # Refining data to the 25th percentile
     q25 = np.percentile([d[PPSF] for d in processed_data], 25)
     data_25 = [d for d in processed_data if d[PPSF] <= q25]
-    print(data_25)
 
     # Generate the document
     doc = generate_document(data_25, zipcode, total_listings, total_homes, max_ppsf, min_ppsf, max_price, min_price, mean_ppsf, mean_price)
@@ -284,14 +268,9 @@ def main(num_homes, uipt, region_id):
     # Save the document as DOCX
     if type(zipcode) is str:
         doc_path = os.path.join(SAVE_DIRECTORY, 'Undervalued_Properties.docx')
-        pdf_path = os.path.join(SAVE_DIRECTORY, 'Undervalued_Properties.pdf')
     else:
         doc_path = os.path.join(SAVE_DIRECTORY, 'ALL_The_Undervalued_Properties.docx')
-        pdf_path = os.path.join(SAVE_DIRECTORY, 'ALL_The_Undervalued_Properties.pdf')
     doc.save(doc_path)
-    
-    # Convert the DOCX to PDF
-    convert_to_pdf(doc_path, pdf_path)
 
     return zipcode, data_25
 
