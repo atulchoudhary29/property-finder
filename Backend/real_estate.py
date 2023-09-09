@@ -7,7 +7,7 @@ import docx
 import requests
 import json
 from docx2pdf import convert
-import pythoncom
+# import pythoncom
 import json
 
 # User Inputs
@@ -233,9 +233,9 @@ def convert_to_pdf(input_path, output_path):
     Convert a Word (.docx) file to PDF using the docx2pdf library.
     """
     try:
-        pythoncom.CoInitialize()
+        # pythoncom.CoInitialize()
         convert(input_path, output_path)
-        pythoncom.CoUninitialize()
+        # pythoncom.CoUninitialize()
     except Exception as e:
         print(f"Error during conversion: {e}")
 
