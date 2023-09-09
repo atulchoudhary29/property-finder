@@ -13,6 +13,7 @@ function App() {
   const [tableData, setTableData] = useState(null);
   const [sortBy, setSortBy] = useState(null);
   const [sortOrder, setSortOrder] = useState("asc");
+  const [searchAttempted, setSearchAttempted] = useState(false);
 
   function convertToCSV(objArray) {
     const array =
@@ -99,6 +100,7 @@ function App() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setProcessing(true);
+    setSearchAttempted(true);
 
     // Call the Flask backend here using fetch
     try {
@@ -207,7 +209,7 @@ function App() {
         </div>
       )}
 
-      {!processing && !tableData && (
+      {!processing && searchAttempted && !tableData && (
         <div className="no-data-available">No data available</div>
       )}
 
