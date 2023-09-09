@@ -68,9 +68,6 @@ def prepare_data(json_data):
 
 def process_data_for_document(data):
     """Process and filter the data for the document."""
-    # Save the new_data to a JSON file
-    with open('processed_data.json', 'w') as json_file:
-        json.dump(data, json_file, indent=4)
         
     ppsf_nums = [d['PPSF'] for d in data if d['PPSF'] is not None]
     mean_ppsf = sum(ppsf_nums) / len(ppsf_nums)
@@ -255,7 +252,6 @@ def main(num_homes, uipt, region_id):
     # Prepare and process data
     data = prepare_data(json_data)
     processed_data = process_data_for_document(data)
-    print(processed_data)
     
     # Filtered data operations
     filtered_data = [d for d in data if all(d[key] is not None for key in ['PRICE', 'SQFT', 'PPSF', 'ADDRESS', 'CITY', 'ZIP'])]
