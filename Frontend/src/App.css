@@ -1,0 +1,322 @@
+#root,
+.App {
+  font-family: Arial, Helvetica, sans-serif;
+  text-align: center;
+  padding: 0 20px;
+}
+
+.main-title {
+  font-family: Papyrus, fantasy;
+  font-size: 3.5em;
+  margin: 40px 0 30px;
+}
+
+.search-form {
+  padding: 20px 0;
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 20px;
+  max-width: 70%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.data-table-container,
+.download-section {
+  padding: 10px 0;
+}
+
+.search-form input,
+.search-form select {
+  flex: 1;
+  width: 100%;
+}
+
+.search-form input::placeholder {
+  color: #888;
+}
+
+.search-form input:not(:placeholder-shown) {
+  color: #000;
+}
+
+select {
+  padding: 10px 15px;
+  font-size: 16px;
+  border: 0.5px solid #ddd;
+  border-radius: 4px;
+  appearance: none;
+  background-color: #fff;
+  cursor: pointer;
+  color: #000;
+}
+
+select:focus {
+  border-color: #aaa;
+}
+
+.search-form input {
+  padding: 10px 15px;
+  font-size: 16px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  transition: border 0.3s;
+}
+
+.search-form input:focus {
+  border-color: #aaa;
+}
+
+.download-section {
+  margin: 20px 0;
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+}
+
+.btn-download.btn3 {
+  background-color: #fcfcfc00;
+  margin-left: 20px;
+}
+
+.btn-download {
+  border: none;
+  display: inline-block;
+  
+  height: 100px;
+  line-height: 100px;
+  margin: 5px;
+  position: relative;
+  text-align: center;
+  vertical-align: middle;
+  width: 100px;
+  text-decoration: none;
+}
+
+.btn-download span {
+  background: #f2594b;
+  border-radius: 4px;
+  color: #fff;
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 700;
+  line-height: normal;
+  padding: 5px 10px;
+  position: relative;
+  text-transform: uppercase;
+  z-index: 1;
+}
+
+.btn-download span:last-child {
+  margin-left: -20px;
+}
+
+.btn-download:after,
+.btn-download:before {
+  background: #fff;
+  border: 3px solid #9fb4cc;
+  border-radius: 4px;
+  content: "";
+  display: block;
+  height: 35px;
+  left: 50%;
+  margin: -17px 0 0 -12px;
+  position: absolute;
+  top: 50%;
+  width: 25px;
+}
+
+.btn-download:hover:after,
+.btn-download:hover:before {
+  background: #e2e8f0;
+}
+
+.btn-download:before {
+  margin: -23px 0 0 -5px;
+}
+
+.btn-download span:first-child {
+  display: none;
+}
+
+.btn-download:hover span:first-child {
+  display: inline-block;
+}
+
+.btn-download:hover span:last-child {
+  display: none;
+}
+
+.btn2 {
+  margin-left: 20px;
+}
+
+.lds-dual-ring {
+  display: inline-block;
+  width: 80px;
+  height: 80px;
+}
+
+.lds-dual-ring:after {
+  content: " ";
+  display: block;
+  width: 64px;
+  height: 64px;
+  margin: 8px;
+  border-radius: 50%;
+  border: 6px solid #fff;
+  border-color: #fff transparent;
+  animation: 1.2s linear infinite lds-dual-ring;
+}
+
+@keyframes lds-dual-ring {
+  0% {
+    transform: rotate(0);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.button-83 {
+  appearance: button;
+  background-color: transparent;
+  background-image: linear-gradient(to bottom, #fff, #f8eedb);
+  border: 0 solid #e5e7eb;
+  border-radius: 0.5rem;
+  box-sizing: border-box;
+  color: #482307;
+  column-gap: 1rem;
+  cursor: pointer;
+  display: flex;
+  font-family: ui-sans-serif, system-ui, -apple-system, system-ui, "Segoe UI",
+    Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif,
+    "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  font-size: 0.9rem;
+  font-weight: 700;
+  line-height: 24px;
+  margin: 0;
+  outline: transparent solid 2px;
+  padding: 0.7rem 1.2rem;
+  text-align: center;
+  text-transform: none;
+  transition: 0.1s cubic-bezier(0.4, 0, 0.2, 1);
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  box-shadow: -6px 8px 10px rgba(81, 41, 10, 0.1),
+    0 2px 2px rgba(81, 41, 10, 0.2);
+}
+
+.button-83:active {
+  background-color: #f3f4f6;
+  box-shadow: -1px 2px 5px rgba(81, 41, 10, 0.15),
+    0 1px 1px rgba(81, 41, 10, 0.15);
+  transform: translateY(1px);
+}
+
+.button-83:hover {
+  box-shadow: 0 5px 15px rgba(81, 41, 10, 0.2);
+  transform: translateY(-2px);
+}
+
+.data-table th {
+  cursor: pointer;
+  transition: background-color 0.3s;
+  background-color: #f2f2f2;
+}
+
+.data-table th:hover {
+  background-color: #e6e6e6;
+}
+
+div[data-table-container] {
+  margin-top: 20px;
+}
+
+.data-table tr {
+  transition: background-color 0.3s;
+}
+
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.data-table tr:hover {
+  background-color: #f5f5f5;
+}
+
+.data-table td a {
+  color: #00f;
+  text-decoration: none;
+}
+
+.data-table-container {
+  background-color: #f2f2f2;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  margin: 20px 0;
+}
+
+.data-table td,
+.data-table th {
+  border: 1px solid #ddd;
+  padding: 18px 16px;
+}
+
+@media (max-width: 768px) {
+  #root,
+  .App {
+    padding: 20px;
+  }
+
+  .main-title {
+    font-size: 1.8em;
+    margin: 15px 0;
+  }
+
+  .search-form {
+    flex-direction: column;
+    gap: 5px;
+  }
+
+  .search-form input {
+    width: 100%;
+    margin-bottom: 10px;
+  }
+
+  .download-section {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .btn-download {
+    margin-bottom: 10px;
+  }
+
+  .data-table-container {
+    overflow-x: auto;
+  }
+}
+
+@media (max-width: 1024px) and (min-width: 769px) {
+  .main-title {
+    font-size: 2em;
+  }
+
+  .btn-download {
+    width: 80px;
+    height: 80px;
+    line-height: 80px;
+  }
+
+  .btn-download:after,
+  .btn-download:before {
+    height: 28px;
+    width: 20px;
+  }
+}
