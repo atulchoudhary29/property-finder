@@ -9,6 +9,7 @@ CORS(app)  # Enable CORS for the Flask app
 # Assuming the code is saved in a file named `real_estate.py`
 import real_estate
 SAVE_DIRECTORY = "/tmp"
+URL_PREFIX = "https://po4w9kv2x0.execute-api.ap-south-1.amazonaws.com"
 
 @app.route('/process-data', methods=['POST'])
 def process_data():
@@ -23,17 +24,21 @@ def process_data():
         # Call the main function
         zipcode, table_data = real_estate.main(num_homes, user_input, region_id)
 
-        # Generate file names
+        # Generate file names without the /tmp/ prefix for the URL
         doc_name = 'Undervalued_Properties' if type(zipcode) is str else 'ALL_The_Undervalued_Properties'
-        doc_path = os.path.join(SAVE_DIRECTORY, f"{doc_name}.docx")
-        pdf_path = os.path.join(SAVE_DIRECTORY, f"{doc_name}.pdf")
-        
-        return jsonify({
-            'status': 'success',
-            'word_path': url_for('download', filename=doc_path, _external=True),
-            'pdf_path': url_for('download', filename=pdf_path, _external=True),
-            'table_data': table_data
-        })
+        doc_filename = f"{doc_name}.docx"
+        pdf_filename = f"{doc_name}.pdf"
+    
+        # Use the URL_PREFIX and the filename without the directory to generate the URL
+        word_path = f"{URL_PREFIX}/download/{doc_filename}"
+        pdf_path = f"{URL_PREFIX}/download/{pdf_filename}"
+
+    return jsonify({
+        'status': 'success',
+        'word_path': word_path,
+        'pdf_path': pdf_path,
+        'table_data': table_data
+    })
     except Exception as e:
         app.logger.error(f"Error processing data: {str(e)}")
         return jsonify({
