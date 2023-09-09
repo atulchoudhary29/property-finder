@@ -278,14 +278,15 @@ def main(num_homes, uipt, region_id):
 
     # Generate the document
     doc = generate_document(data_25, zipcode, total_listings, total_homes, max_ppsf, min_ppsf, max_price, min_price, mean_ppsf, mean_price)
-    
+
+    SAVE_DIRECTORY = "/tmp"
     # Save the document as DOCX
     if type(zipcode) is str:
-        doc_path = f'Undervalued_Properties.docx'
-        pdf_path = f'Undervalued_Properties.pdf'
+        doc_path = os.path.join(SAVE_DIRECTORY, 'Undervalued_Properties.docx')
+        pdf_path = os.path.join(SAVE_DIRECTORY, 'Undervalued_Properties.pdf')
     else:
-        doc_path = f'ALL_The_Undervalued_Properties.docx'
-        pdf_path = f'ALL_The_Undervalued_Properties.pdf'
+        doc_path = os.path.join(SAVE_DIRECTORY, 'ALL_The_Undervalued_Properties.docx')
+        pdf_path = os.path.join(SAVE_DIRECTORY, 'ALL_The_Undervalued_Properties.pdf')
     doc.save(doc_path)
     
     # Convert the DOCX to PDF
