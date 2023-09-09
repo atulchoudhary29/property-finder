@@ -33,12 +33,12 @@ def process_data():
         word_path = f"{URL_PREFIX}/download/{doc_filename}"
         pdf_path = f"{URL_PREFIX}/download/{pdf_filename}"
 
-    return jsonify({
-        'status': 'success',
-        'word_path': word_path,
-        'pdf_path': pdf_path,
-        'table_data': table_data
-    })
+        return jsonify({
+            'status': 'success',
+            'word_path': word_path,
+            'pdf_path': pdf_path,
+            'table_data': table_data
+        })
     except Exception as e:
         app.logger.error(f"Error processing data: {str(e)}")
         return jsonify({
