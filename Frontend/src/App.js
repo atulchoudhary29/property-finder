@@ -207,7 +207,11 @@ function App() {
         </div>
       )}
 
-      {tableData && (
+      {!processing && !tableData && (
+        <div className="no-data-available">No data available</div>
+      )}
+
+      {tableData && tableData.length > 0 && (
         <div className="data-table-container">
           <table className="data-table">
             <thead>
