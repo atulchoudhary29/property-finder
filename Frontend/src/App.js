@@ -103,7 +103,7 @@ function App() {
 
     // Call the Flask backend here using fetch
     try {
-      const response = await fetch("http://localhost:5000/process-data", {
+      const response = await fetch("https://po4w9kv2x0.execute-api.ap-south-1.amazonaws.com/process-data", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
