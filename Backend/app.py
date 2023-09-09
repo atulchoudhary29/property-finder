@@ -6,8 +6,8 @@ app = Flask(__name__)
 CORS(app)  # Enable CORS for the Flask app
 
 # Importing the provided code
-# Assuming the code is saved in a file named `real_estate.py`
 import real_estate
+
 SAVE_DIRECTORY = "/tmp"
 URL_PREFIX = "https://po4w9kv2x0.execute-api.ap-south-1.amazonaws.com"
 
@@ -27,16 +27,13 @@ def process_data():
         # Generate file names without the /tmp/ prefix for the URL
         doc_name = 'Undervalued_Properties' if type(zipcode) is str else 'ALL_The_Undervalued_Properties'
         doc_filename = f"{doc_name}.docx"
-        pdf_filename = f"{doc_name}.pdf"
     
         # Use the URL_PREFIX and the filename without the directory to generate the URL
         word_path = f"{URL_PREFIX}/download/{doc_filename}"
-        pdf_path = f"{URL_PREFIX}/download/{pdf_filename}"
 
         return jsonify({
             'status': 'success',
             'word_path': word_path,
-            'pdf_path': pdf_path,
             'table_data': table_data
         })
     except Exception as e:
@@ -52,4 +49,4 @@ def download(filename):
     return send_from_directory(directory=SAVE_DIRECTORY, path=filename, as_attachment=True)
 
 if __name__ == '__main__':
-    app.run(debug=True, port=5000)  # Keep debug as True for development purposes only
+    app.run(debug=False, port=5000)  # Keep debug as True for development purposes only
