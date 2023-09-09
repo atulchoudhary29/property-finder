@@ -10,9 +10,6 @@ CORS(app)  # Enable CORS for the Flask app
 import real_estate
 SAVE_DIRECTORY = "/tmp"
 
-# Create a temporary directory for saving files
-temp_dir = tempfile.mkdtemp()
-
 @app.route('/process-data', methods=['POST'])
 def process_data():
     try:
