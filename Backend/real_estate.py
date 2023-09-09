@@ -8,6 +8,7 @@ import requests
 import json
 from docx2pdf import convert
 import pythoncom
+import json
 
 # User Inputs
 
@@ -17,7 +18,7 @@ import pythoncom
 
 # num_homes = '350'
 # uipt = '1'
-# region_id = '13284'
+# region_id = '32461'
 
 # Constants
 PPSF = '$/SQUARE FEET'
@@ -49,42 +50,47 @@ def prepare_data(json_data):
     """Prepare data from the JSON source."""
     curated_data = []
     for d in json_data['payload']['homes']:
-        if all(['value' in d[key] for key in ['price', 'sqFt', 'streetLine', 'pricePerSqFt']]):
+        if all(['value' in d.get(key, {}) for key in ['price', 'sqFt', 'streetLine', 'pricePerSqFt']]):
             curated_data.append({
-                STATUS: d['mlsStatus'],
-                BEDS: d['beds'], 
-                BATHS: d['baths'],
-                CITY: d['city'], 
-                STATE: d['state'], 
-                ZIP: d['zip'], 
-                PRICE: d['price']['value'], 
-                PPSF: d['pricePerSqFt']['value'],
-                SQFT: d['sqFt']['value'], 
-                ADDRESS: d['streetLine']['value'], 
-                URL: 'https://www.redfin.com' + d['url']})
+                'STATUS': d.get('mlsStatus', 'NaN'),
+                'BEDS': d.get('beds', 0),
+                'BATHS': d.get('baths', 0),
+                'CITY': d.get('city', 0),
+                'STATE': d.get('state', 'NaN'),
+                'ZIP': d.get('zip', 0),
+                'PRICE': d.get('price', {}).get('value', 0),
+                'PPSF': d.get('pricePerSqFt', {}).get('value', 0),
+                'SQFT': d.get('sqFt', {}).get('value', 0),
+                'ADDRESS': d.get('streetLine', {}).get('value', 'NaN'),
+                'URL': 'https://www.redfin.com' + d.get('url', '')
+            })
     return curated_data
 
 def process_data_for_document(data):
     """Process and filter the data for the document."""
-    ppsf_nums = [d[PPSF] for d in data if d[PPSF] is not None]
+    # Save the new_data to a JSON file
+    with open('processed_data.json', 'w') as json_file:
+        json.dump(data, json_file, indent=4)
+        
+    ppsf_nums = [d['PPSF'] for d in data if d['PPSF'] is not None]
     mean_ppsf = sum(ppsf_nums) / len(ppsf_nums)
-
 
     new_data = []
     for d in data:
-        percentage_below_mean = round(calculate_percentage_difference(d[PPSF], ppsf_nums), 2)
-        market_status = 'above' if d[PPSF] > mean_ppsf else 'below'
+        percentage_below_mean = round(calculate_percentage_difference(d['PPSF'], ppsf_nums), 2)
+        market_status = 'above' if d['PPSF'] > mean_ppsf else 'below'
         new_data.append({
-            STATUS: d[STATUS], 
-            ADDRESS: f"{d[ADDRESS]}, {d[CITY]}, {d[STATE]} {d[ZIP]}  . . . {percentage_below_mean}% {market_status} market value.",
-            PRICE: d[PRICE], 
-            PRICE_90: round(d[PRICE] * 0.9, 2),
-            SQFT: d[SQFT], 
-            PPSF: d[PPSF], 
-            PPSF_90: round(d[PPSF] * 0.9, 2), 
-            BEDS: d[BEDS], 
-            BATHS: d[BATHS], 
-            URL: d[URL]})
+            STATUS: d['STATUS'], 
+            ADDRESS: f"{d['ADDRESS']}, {d['CITY']}, {d['STATE']} {d['ZIP']}  . . . {percentage_below_mean}% {market_status} market value.",
+            PRICE: d['PRICE'], 
+            PRICE_90: round(d['PRICE'] * 0.9, 2),
+            SQFT: d['SQFT'], 
+            PPSF: d['PPSF'], 
+            PPSF_90: round(d['PPSF'] * 0.9, 2), 
+            BEDS: d['BEDS'], 
+            BATHS: d['BATHS'], 
+            URL: d['URL']
+        })
     return new_data
 
 def generate_document(data, zipcode, total_listings, total_homes, max_ppsf, min_ppsf, max_price, min_price, mean_ppsf, mean_price):
@@ -249,21 +255,22 @@ def main(num_homes, uipt, region_id):
     # Prepare and process data
     data = prepare_data(json_data)
     processed_data = process_data_for_document(data)
+    print(processed_data)
     
     # Filtered data operations
-    filtered_data = [d for d in data if all(d[key] is not None for key in [PRICE, SQFT, PPSF, ADDRESS, CITY, ZIP])]
-    filtered_data.sort(key=lambda x: x[PPSF])
-    zipcode = str(filtered_data[0][CITY]) if filtered_data else 'Unknown'
+    filtered_data = [d for d in data if all(d[key] is not None for key in ['PRICE', 'SQFT', 'PPSF', 'ADDRESS', 'CITY', 'ZIP'])]
+    filtered_data.sort(key=lambda x: x['PPSF'])
+    zipcode = str(filtered_data[0]['CITY']) if filtered_data else 'Unknown'
     
     # Basic calculations
     total_listings = len(data)
     total_homes = len(filtered_data)
-    max_ppsf = max(d[PPSF] for d in filtered_data)
-    min_ppsf = min(d[PPSF] for d in filtered_data)
-    max_price = max(d[PRICE] for d in filtered_data)
-    min_price = min(d[PRICE] for d in filtered_data)
-    mean_ppsf = round(sum(d[PPSF] for d in filtered_data) / len(filtered_data), 2)
-    mean_price = round(sum(d[PRICE] for d in filtered_data) / len(filtered_data), 2)
+    max_ppsf = max(d['PPSF'] for d in filtered_data)
+    min_ppsf = min(d['PPSF'] for d in filtered_data)
+    max_price = max(d['PRICE'] for d in filtered_data)
+    min_price = min(d['PRICE'] for d in filtered_data)
+    mean_ppsf = round(sum(d['PPSF'] for d in filtered_data) / len(filtered_data), 2)
+    mean_price = round(sum(d['PRICE'] for d in filtered_data) / len(filtered_data), 2)
 
     # Extract URLs
     urls = [d[URL] for d in filtered_data]
