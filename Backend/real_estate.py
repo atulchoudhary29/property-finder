@@ -274,6 +274,7 @@ def main(num_homes, uipt, region_id):
     # Refining data to the 25th percentile
     q25 = np.percentile([d[PPSF] for d in processed_data], 25)
     data_25 = [d for d in processed_data if d[PPSF] <= q25]
+    print(data_25)
 
     # Generate the document
     doc = generate_document(data_25, zipcode, total_listings, total_homes, max_ppsf, min_ppsf, max_price, min_price, mean_ppsf, mean_price)
