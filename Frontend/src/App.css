@@ -11,6 +11,12 @@
   margin: 40px 0 30px;
 }
 
+.no-data-available {
+  margin-top: 20px;
+  font-size: 18px;
+  color: red;
+}
+
 .search-form {
   padding: 20px 0;
   display: flex;
