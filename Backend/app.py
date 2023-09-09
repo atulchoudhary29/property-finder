@@ -3,7 +3,7 @@ from flask_cors import CORS
 import os
 
 app = Flask(__name__)
-CORS(app)  # Enable CORS for the Flask app
+CORS(app, origins=["https://h6335monmk.execute-api.ap-south-1.amazonaws.com"], methods=["GET", "POST"], allow_headers="*")
 
 # Importing the provided code
 # Assuming the code is saved in a file named `real_estate.py`
