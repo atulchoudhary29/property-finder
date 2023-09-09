@@ -3,7 +3,7 @@ from flask_cors import CORS
 import os
 
 app = Flask(__name__)
-cors = CORS(app, resources={r'/*': {'origins': '*'}})
+CORS(app, resources={r'/*': {'origins': '*'}})
 
 # Importing the provided code
 # Assuming the code is saved in a file named `real_estate.py`
@@ -46,4 +46,4 @@ def download(filename):
     return send_from_directory(directory=os.getcwd(), path=filename, as_attachment=True)
 
 if __name__ == '__main__':
-    app.run(debug=True, port=5000)  # Keep debug as True for development purposes only
+    app.run(debug=False, port=5000)  # Keep debug as True for development purposes only
