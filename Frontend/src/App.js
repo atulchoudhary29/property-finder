@@ -78,7 +78,6 @@ function App() {
   }
 
   const extractAddressAndPercentage = (addressStr) => {
-    console.log("Processing addressStr: ", addressStr);
 
     const addressMatch = addressStr.match(
       /(.+?)\s*\.\s*\.\s*\.\s*(.+) below market value/
@@ -115,7 +114,6 @@ function App() {
       setProcessing(false);
       setDownloadLinks({
         word: result.word_path,
-        pdf: result.pdf_path,
       });
       // Process table data
       const processedTableData = result.table_data.map((row) => {
@@ -198,16 +196,6 @@ function App() {
           >
             <span>Download</span>
             <span>WORD</span>
-          </a>
-          <a
-            href={downloadLinks.pdf}
-            target="_blank"
-            rel="noopener noreferrer"
-            download
-            className="btn-download btn2"
-          >
-            <span>Download</span>
-            <span>PDF</span>
           </a>
           <button
             onClick={() => downloadCSV(tableData)}
